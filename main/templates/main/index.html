@@ -1,0 +1,109 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section Begin -->
+<section class="hero">
+    <div class="container">
+        <div class="hero__slider owl-carousel">
+            {% for slide in slides %}
+            <div class="hero__items set-bg" data-setbg="{{ slide.image.url }}">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero__text">
+                            {% for genre in slide.anime.genres.all %}
+                            <div class="label">{{ genre.title }}</div>
+                            {% endfor %}
+                            <h2>{{ slide.anime.title }}</h2>
+                            <p>{{ slide.quote }}</p>
+                            <a href="{{ slide.anime.get_absolute_url }}"><span>About</span> <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!--Trending Shows-->
+                <div class="trending__product">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="section-title">
+                                <h4>Trending Now</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="btn__all">
+                                <a href="{% url 'main:selection' 'trends' %}" class="primary-btn">View All <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for item in trends %}
+                        {% anime_card item %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!--Popular Shows-->
+                <div class="popular__product">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="section-title">
+                                <h4>Popular Shows</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="btn__all">
+                                <a href="{% url 'main:selection' 'popular' %}" class="primary-btn">View All <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for item in popular %}
+                        {% anime_card item %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!--Recently Added Shows-->
+                <div class="recent__product">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="section-title">
+                                <h4>Recently Added Shows</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="btn__all">
+                                <a href="{% url 'main:selection' 'recently_added' %}" class="primary-btn">View All <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for item in recent %}
+                        {% anime_card item %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                {% sidebar %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Section End -->
+{% endblock %}

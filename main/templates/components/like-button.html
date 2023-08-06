@@ -1,0 +1,7 @@
+<div class="anime__details__btn">
+    {% if state %}
+    <a href="{% url 'main:add_like' anime_slug %}" class="follow-btn"><i class="fa fa-minus-circle"></i> Remove Like</a>
+    {% else %}
+    <a href="{% url 'main:add_like' anime_slug %}" class="follow-btn"><i class="fa fa-thumbs-up"></i> Like</a>
+    {% endif %}
+</div>

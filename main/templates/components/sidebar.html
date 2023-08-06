@@ -1,0 +1,72 @@
+<div class="product__sidebar">
+    <div class="product__sidebar__view">
+        <div class="section-title">
+            <h5>Top Views</h5>
+        </div>
+        <ul class="filter__controls">
+            <li class="active" data-filter=".day">Day</li>
+            <li data-filter=".week">Week</li>
+            <li data-filter=".month">Month</li>
+            <li data-filter=".year">Years</li>
+        </ul>
+        <div class="filter__gallery">
+            <!--day-->
+            {% for item in top_day %}
+            <div class="product__sidebar__view__item set-bg mix day"
+                 data-setbg="{{ item.top_views_img.url }}">
+                <div class="ep">{{ item.age_rating }}+</div>
+                <div class="view"><i class="fa fa-eye"></i> {{ item.views_day }}</div>
+                <h5><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h5>
+            </div>
+            {% endfor %}
+            <!--week-->
+            {% for item in top_week %}
+            <div class="product__sidebar__view__item set-bg mix week"
+                 data-setbg="{{ item.top_views_img.url }}">
+                <div class="ep">{{ item.age_rating }}+</div>
+                <div class="view"><i class="fa fa-eye"></i> {{ item.views_week }}</div>
+                <h5><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h5>
+            </div>
+            {% endfor %}
+            <!--month-->
+            {% for item in top_month %}
+            <div class="product__sidebar__view__item set-bg mix month"
+                 data-setbg="{{ item.top_views_img.url }}">
+                <div class="ep">{{ item.age_rating }}+</div>
+                <div class="view"><i class="fa fa-eye"></i> {{ item.views_month }}</div>
+                <h5><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h5>
+            </div>
+            {% endfor %}
+            <!--year-->
+            {% for item in top_year %}
+            <div class="product__sidebar__view__item set-bg mix year"
+                 data-setbg="{{ item.top_views_img.url }}">
+                <div class="ep">{{ item.age_rating }}+</div>
+                <div class="view"><i class="fa fa-eye"></i> {{ item.views_year }}</div>
+                <h5><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h5>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="product__sidebar__comment">
+        <div class="section-title">
+            <h5>New Comment</h5>
+        </div>
+        {% for item in new_comments %}
+        <div class="product__sidebar__comment__item">
+            <div class="product__sidebar__comment__item__pic">
+                <img src="{{ item.comment_img.url }}" alt="">
+            </div>
+            <div class="product__sidebar__comment__item__text">
+                <ul>
+                    {% for genre in item.genres.all %}
+                    <li>{{ genre.title }}</li>
+                    {% endfor %}
+                </ul>
+                <h5><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h5>
+                <span><i class="fa fa-eye"></i> {{ item.views.count }} Viewes</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

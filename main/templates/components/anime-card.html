@@ -1,0 +1,17 @@
+<div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="product__item">
+        <div class="product__item__pic set-bg" data-setbg="{{ item.poster.url }}">
+            <div class="ep">{{ item.age_rating }}+</div>
+            <div class="comment"><i class="fa fa-comments"></i> {{ item.comments.count }}</div>
+            <div class="view"><i class="fa fa-eye"></i> {{ item.views.count }}</div>
+        </div>
+        <div class="product__item__text">
+            <ul>
+                {% for genre in item.genres.all %}
+                <li>{{ genre.title }}</li>
+                {% endfor %}
+            </ul>
+            <h5><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h5>
+        </div>
+    </div>
+</div>

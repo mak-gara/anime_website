@@ -1,0 +1,132 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+{% load humanize %}
+{% load custom_tags %}
+
+{% block title %}{{ anime.title }}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{% url 'main:homepage' %}"><i class="fa fa-home"></i> Home</a>
+                    <a href="#">Genres</a>
+                    <span>{{ anime.genres.all|queryset_to_string }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Anime Section Begin -->
+<section class="anime-details spad">
+    <div class="container">
+        <div class="anime__details__content">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="anime__details__pic set-bg mb-3" data-setbg="{{ anime.poster.url }}">
+                        <div class="comment"><i class="fa fa-comments"></i> {{ anime.comments.count }}</div>
+                        <div class="view"><i class="fa fa-eye"></i> {{ anime.views.count }}</div>
+                    </div>
+                    <!--Rating-->
+                    <div class="anime__details__title">
+                        <div class="rating">
+                        </div>
+                    </div>
+                    <!--End Rating-->
+                </div>
+                <div class="col-lg-9">
+                    <div class="anime__details__text" style="margin-bottom: 30px;">
+                        <div class="anime__details__title">
+                            <h3>{{ anime.title }}</h3>
+                            <span>{{ anime.japanese_title }}</span>
+                            </span>
+                        </div>
+                        <p>{{ anime.description }}</p>
+                        <div class="anime__details__widget">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <ul>
+                                        <li><span>Type:</span> {{ anime.type.title }}</li>
+                                        <li><span>Date aired:</span> {{ anime.date_aired }}</li>
+                                        <li><span>Episodes:</span> {{ anime.episodes }}</li>
+                                        <li><span>Duration:</span> {{ anime.duration }}</li>
+                                        <li><span>Source:</span> {{ anime.source.title }}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <ul>
+                                        <li><span>Genres:</span> {{ anime.genres.all|queryset_to_string}}</li>
+                                        <li><span>Themes:</span> {{ anime.themes.all|queryset_to_string}}</li>
+                                        <li><span>Producers:</span> {{ anime.producers.all|queryset_to_string}}</li>
+                                        <li><span>Studios:</span> {{ anime.studios.all|queryset_to_string}}</li>
+                                        <li><span>Licensors:</span> {{ anime.licensors.all|queryset_to_string}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% like_button anime user %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                {% if anime.comments.exists %}
+                <div class="anime__details__review">
+                    <div class="section-title">
+                        <h5>Reviews</h5>
+                    </div>
+                    {% for comment in anime.comments.all %}
+                    <div class="anime__review__item">
+                        <div class="anime__review__item__pic">
+                            {% if comment.user.profile_pic%}
+                            <img src="{{ comment.user.profile_pic.url }}" alt="">
+                            {% else %}
+                            <img src="{% static 'img/anime/review-1.jpg' %}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="anime__review__item__text">
+                            <h6>{{ comment.user }} - <span>{{ comment.created_at|naturaltime }}</span></h6>
+                            <p>{{ comment.text }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="anime__details__form">
+                    <div class="section-title">
+                        <h5>Your Comment</h5>
+                    </div>
+                    <form action="{% url 'main:add_review' anime.url %}" method="post">
+                        {% csrf_token %}
+                        <textarea placeholder="Your Comment" name="text"></textarea>
+                        <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="anime__details__sidebar">
+                    <div class="section-title">
+                        <h5>you might like...</h5>
+                    </div>
+                    {% for anime in might_like %}
+                    <div class="product__sidebar__view__item set-bg" data-setbg="{{ anime.top_views_img.url }}">
+                        <div class="ep">{{ anime.age_rating }}+</div>
+                        <div class="view"><i class="fa fa-eye"></i> {{ anime.views.count }}</div>
+                        <h5><a href="{{ anime.get_absolute_url }}">{{ anime.title }}</a></h5>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Anime Section End -->
+
+{% endblock %}
